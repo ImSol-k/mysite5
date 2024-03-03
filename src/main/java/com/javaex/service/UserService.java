@@ -12,10 +12,12 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	
-	public void exeLogin(UserVo userVo) {
+	public UserVo exeLogin(UserVo userVo) {
 		System.out.println("UserService.exeLogin()");
 		
-		userDao.userSelect(userVo);
+		
+		userDao.userSelectOne(userVo);
+		return userVo;
 	}
 	
 }

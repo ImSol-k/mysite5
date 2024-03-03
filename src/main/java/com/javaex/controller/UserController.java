@@ -2,14 +2,16 @@ package com.javaex.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
@@ -17,29 +19,44 @@ public class UserController {
 	
 	/*********
 	 * login */
-	@RequestMapping(value="/user/loginfrom", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/loginform", method = {RequestMethod.GET, RequestMethod.POST})
 	public String loginForm() {
-		System.out.println("UserController.loginFrom()");
+		System.out.println("UserController.loginform()");
 		
 		return "user/loginForm";
 	}
-	@RequestMapping(value="/user/login", method = {RequestMethod.GET, RequestMethod.POST})
-	public String login(@ModelAttribute UserVo userVo) {
+	@RequestMapping(value="/login", method = {RequestMethod.GET, RequestMethod.POST})
+	public String login(@RequestParam(value="id") String id,
+					    @RequestParam(value="pw") String pw) {
 		System.out.println("UserController.login()");
 		
+		UserVo userVo = new UserVo(id, pw);
+		UserVo authUser = userService.exeLogin(userVo);
 		
-		return "redirect:/main";
+		if(authUser != null) {
+			return "redirect:/main";
+		} else {
+			
+			return "user/loginForm";
+		}
+		
 	}
 	
-	/*************
-	 * joinFrom	 */
-	@RequestMapping(value="/user/joinForm", method = {RequestMethod.GET, RequestMethod.POST})
+	/*********
+	 * join	 */
+	@RequestMapping(value="/joinform", method = {RequestMethod.GET, RequestMethod.POST})
 	public String joinForm() {
-		System.out.println("UserController.joinForm()");
-		
+		System.out.println("UserController.joinform()");
 		
 		return "user/joinForm";
 	}
+	@RequestMapping(value="/join", method = {RequestMethod.GET, RequestMethod.POST})
+	public String join() {
+		System.out.println("UserController.join()");
+		
+		return "redirect:/user/loginform";
+	}
+	
 	
 	
 	

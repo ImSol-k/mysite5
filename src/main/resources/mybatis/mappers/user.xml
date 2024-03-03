@@ -1,1 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+
+	<resultMap type="com.javaexvo.vo.UserVo" id="userMapVo">
+	<result column=""></result>
+	</resultMap>
+
+
+	<select id="select">
+		select no, id, pass, name, gender
+		from users
+	</select>
+
+	<select id="selectOne" parameterType="String">
+		select no, id, pass, name, gender
+		from users
+		where id = #{id} and pass = #{pw}
+	</select>
+
+	<insert id="insert">
+
+	</insert>
+
+
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
