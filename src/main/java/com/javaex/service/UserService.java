@@ -12,11 +12,26 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	
+	//로그인
 	public UserVo exeLogin(UserVo userVo) {
 		System.out.println("UserService.exeLogin()");
 		
-		userDao.userSelectOne(userVo);
-		return userVo;
+		UserVo authUser = userDao.userSelectOne(userVo);
+		return authUser;
+	}
+	
+	//회원가입
+	public void exeJoin(UserVo userVo) {
+		System.out.println("UserService.exeJoin()");
+		
+		userDao.userInsert(userVo);
+	}
+
+	//회원정보수정
+	public void exeModify(UserVo userVo) {
+		System.out.println("userService.exeModify()");
+		
+		userDao.userUpdate(userVo);
 	}
 	
 }

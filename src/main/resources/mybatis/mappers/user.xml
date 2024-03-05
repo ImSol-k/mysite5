@@ -3,24 +3,33 @@
 <mapper namespace="user">
 
 
-	<select id="select">
-		select no, id, pass, name, gender
-		from users
+	<!-- login -->
+	<select id="selectOne" parameterType="String" resultType="userVo">
+		<![CDATA[
+			select no, id, pass pw, name, gender
+			from users
+			where id = #{id} and pass = #{pw}
+		]]>
 	</select>
-
-	<select id="selectOne" parameterType="String" resultType="map">
-		select no, id, pass, name, gender
-		from users
-		where id = #{id} and pass = #{pw}
-	</select>
-
-	<insert id="insert">
-
+	
+	<!-- 회원가입 -->
+	<insert id="insert" >
+		<![CDATA[
+			insert into users
+			values (null,#{id}, #{password},#{name},#{gender})
+		]]>
 	</insert>
-
-
-
-
+	
+	<!-- 회원정보수정 -->
+	<update id="update" parameterType="userVo">
+		<![CDATA[
+		update users
+		set pass = #{pw} ,
+			name = #{name},
+		    gender = #{gender}
+		where no = #{no} 
+		]]>
+	</update>
 
 </mapper>
 

@@ -1,13 +1,12 @@
 package com.javaex.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
@@ -27,28 +26,32 @@ public class UserController {
 		
 		return "user/loginForm";
 	}
-	@RequestMapping(value="/login", method = {RequestMethod.GET, RequestMethod.POST})
-	public String login(@RequestParam(value="id") String id,
-					    @RequestParam(value="pw") String pw,
-					    HttpServletRequest request) {
+	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
+	public String login(@ModelAttribute UserVo userVo, HttpSession session) {
 		System.out.println("UserController.login()");
-		
-		UserVo userVo = new UserVo(id, pw);
+
 		UserVo authUser = userService.exeLogin(userVo);
-		
-		if(authUser != null) {
-			HttpSession session = request.getSession();
+
+		if (authUser != null) {
 			session.setAttribute("authUser", authUser);
-			System.out.println(authUser);
-			
+			System.out.println("로그인성공" + authUser);
 			return "redirect:/main";
 		} else {
-			
+			System.out.println("로그인실패");
 			return "user/loginForm";
 		}
-		
+
 	}
-	
+	/**********
+	 * logout */
+	@RequestMapping(value="/logout", method = {RequestMethod.GET, RequestMethod.POST})
+	public String logout(HttpSession session){
+		System.out.println("UserController.logout()");
+		
+		session.invalidate();
+		
+		return "redirect:/main";
+	}
 	/*********
 	 * join	 */
 	@RequestMapping(value="/joinform", method = {RequestMethod.GET, RequestMethod.POST})
@@ -57,14 +60,32 @@ public class UserController {
 		
 		return "user/joinForm";
 	}
-	@RequestMapping(value="/join", method = {RequestMethod.GET, RequestMethod.POST})
-	public String join() {
+
+	@RequestMapping(value = "/join", method = { RequestMethod.GET, RequestMethod.POST })
+	public String join(@ModelAttribute UserVo userVo) {
 		System.out.println("UserController.join()");
+
+		userService.exeJoin(userVo);
+
+		return "user/joinOk";
+	}
+	/**********
+	 * modify */
+	@RequestMapping(value="/modifyform", method= {RequestMethod.GET, RequestMethod.POST})
+	public String modifyForm() {
+		System.out.println("UserController.mform()");
 		
-		return "redirect:/user/loginform";
+		return "user/modifyForm";
 	}
 	
-	
-	
-	
+	@RequestMapping(value="/modify", method= {RequestMethod.GET, RequestMethod.POST})
+	public String modify(HttpSession session,@ModelAttribute UserVo userVo) {
+		System.out.println("UserController.modify()");
+		
+		userService.exeModify(userVo);
+		session.setAttribute("authUser", userVo);
+		
+		return "redirect:/main";
+	}
+
 }

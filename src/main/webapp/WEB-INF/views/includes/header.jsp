@@ -5,20 +5,20 @@
   
 <div id="header" class="clearfix">
 	<h1>
-		<a href="/mysite3/main">MySite</a>
+		<a href="${pageContext.request.contextPath}/main">MySite</a>
 	</h1>
 	<c:choose>
-		<c:when test="${empty authUser.getId}">
+		<c:when test="${empty authUser}">
 			<ul>
-				<li><a href="/mysite3/user?action=loginForm" class="btn_s">로그인</a></li>
-				<li><a href="/mysite3/user?action=joinForm" class="btn_s">회원가입</a></li>
+				<li><a href="${pageContext.request.contextPath}/user/loginform" class="btn_s">로그인</a></li>
+				<li><a href="${pageContext.request.contextPath}/user/joinform" class="btn_s">회원가입</a></li>
 			</ul>
 		</c:when>
 		<c:otherwise>
 			<ul>
 				<li>${authUser.name }님 안녕하세요^^</li>
-				<li><a href="/mysite3/user?action=logout" class="btn_s">로그아웃</a></li>
-				<li><a href="/mysite3/user?action=modifyForm" class="btn_s">회원정보수정</a></li>
+				<li><a href="${pageContext.request.contextPath}/user/logout" class="btn_s">로그아웃</a></li>
+				<li><a href="${pageContext.request.contextPath}/user/modifyform" class="btn_s">회원정보수정</a></li>
 			</ul>
 		</c:otherwise>
 	</c:choose>
