@@ -16,7 +16,7 @@
 	<insert id="insert" >
 		<![CDATA[
 			insert into users
-			values (null,#{id}, #{password},#{name},#{gender})
+			values (null, #{id}, #{pw}, #{name}, #{gender})
 		]]>
 	</insert>
 	

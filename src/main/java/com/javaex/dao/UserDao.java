@@ -25,6 +25,7 @@ public class UserDao {
 	public void userInsert(UserVo userVo) {
 		System.out.println("userDao.userInsert()");
 		
+		System.out.println(userVo);
 		sqlSession.insert("user.insert",userVo);
 	}
 	
